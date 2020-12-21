@@ -7,18 +7,15 @@ A ready-to-use boilerplate for API Development with Docker, Node, Express, Mongo
 ## Features
 
 -   Light-weight project
--   Example endpoints. for example survey collection
+-   Example REST Endpoints included. for example survey collection
 -   Validations included (https://www.npmjs.com/package/fastest-validator)
-
--   Included Swagger Documenation (http://localhost/api/docs)
+-   Included Swagger Documenation (http://localhost:8080/doc)
 -   Test cases included
--   Added support to be deployed to heroku
+-   Added support to be easily deployed to heroku
 -   Added make commands to build/run and bash into the containers
 -   Vscode launch.json is included to do breakpoint debugging, see the details below 
 
 -   TODO: JWT token authorization
--   TODO: API collection for Postman.
--   TODO: Add social logins for example Google, Facebook etc
 
 
 ## Project  structure
@@ -32,6 +29,7 @@ A ready-to-use boilerplate for API Development with Docker, Node, Express, Mongo
 │   ├── DockerfileNode
 │   ├── mongo
 │   └── mysql
+├── data.json
 ├── Makefile
 ├── node_modules
 ├── package.json

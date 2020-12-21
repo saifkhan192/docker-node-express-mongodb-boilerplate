@@ -1,14 +1,15 @@
 version: '3.4'
 services:
 
-  node_app:
+  express_app:
     build:
       context: ../
       dockerfile: ./docker/DockerfileNode
-    container_name: node_app
+    image: express_app_image # 
+    container_name: express_app
     ports:
-      - 8080:8080 # node app
-      - 9229:9229 # debugger
+      - 8080:8080 # express app
+      - 9229:9229 # vscode debugger
     env_file:
       - ../.env
     volumes:
@@ -17,13 +18,13 @@ services:
       - /app/node_modules # don't mount anything at this path
     links:
       - mongodb
-      - mysqldb
-    # command: npm run debug6
-    # command: sh -c "ls -la ./node_modules"
-    command: sh -c "export NODE_ENV=development && nodemon --inspect=0.0.0.0 server.js"
-    # command: sh -c "cross-env NODE_ENV=development node --inspect=0.0.0.0 --inspect-brk server.js"
-    # command: sh -c "cross-env NODE_ENV=development node --inspect=0.0.0.0 --inspect-brk server.js"
-    # command: sh -c "cross-env NODE_ENV=test babel-tape-runner src/tests/test-*.js"
+      - postgresdb
+    command: sh -c "npm run dev" # use this for development
+    # command: sh -c "npm run pretest"
+    # command: sh -c "npm run test"
+    # command: sh -c "export NODE_ENV=development && nodemon --inspect=0.0.0.0 --ignore node_modules/ server.js"
+    networks:
+      - frontend
 
   mongodb:
     image: mongo:3.6
@@ -33,17 +34,22 @@ services:
       - 27017:27017
     volumes:
       - ./mongo/data:/data/db
+    networks:
+      - frontend
 
-  mysqldb:
-    build:
-      context: ../
-      dockerfile: ./docker/DockerfileMysql
-    container_name: mysqldb
+  postgresdb:
+    image: postgres:13-alpine
+    container_name: postgresdb
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_DB: demo-db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - frontend
 
+networks:
+  frontend:

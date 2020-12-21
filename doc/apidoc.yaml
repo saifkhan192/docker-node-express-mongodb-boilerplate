@@ -1,8 +1,8 @@
 swagger: "2.0"
 
 info:
-  title: API description
-  description: API description222
+  title: API Specification
+  description: API Specification
   version: 1.0.0
   contact:
     email: "saifkhan912@gmail.com"
@@ -50,4 +50,41 @@ paths:
           description: |
             [List of surveys]
 
+  /api/contactus:
+    post:
+      summary: Submit contact us message
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - contactus
+      parameters:
+        - in: formData
+          name: name
+          type: string
+          description: Your Name
+        - in: formData
+          name: email
+          type: string
+          description: Email
+        - in: formData
+          name: message
+          type: string
+          description: message
+          required: true
+      responses:
+        200:
+          description: |
+            {"message": "Your message has been received. Thank you."}
+        400:
+          description: |
+            {"errors":{"name":["required field"]}}
+
+    get:
+      summary: contact us
+      description: contact us
+      tags:
+        - contactus
+      responses:
+        200:
+          description: Success
 

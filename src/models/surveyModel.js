@@ -1,17 +1,12 @@
 'use strict';
 
-const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const Validator = require("fastest-validator");
 const v = new Validator();
 
-var Schema = mongoose.Schema;
-var SurveySchema = new Schema({
+var SurveySchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'Name is required field!']
     },
     position: {
         type: String,
@@ -19,16 +14,15 @@ var SurveySchema = new Schema({
     },
     feedback: {
         type: String,
-        required: true
+        required: [true, 'Feedback is required field!']
     },
 });
 
 let Survey = mongoose.model('surveys', SurveySchema);
 
-exports.model = Survey;
+exports.mongooseModel = Survey;
 
-
-exports.load = async function(req, res, next) {
+exports.getAll = function(req, result) {
     const resultsPerPage = 5;
     const page = parseInt(req.query.page > 0 ? req.query.page : 1);
     const sortBy = req.query.sortBy || '_id';
@@ -36,19 +30,24 @@ exports.load = async function(req, res, next) {
     let sort = {};
     sort[sortBy] = sortOrder;
     try {
-        let surveys = await Survey
+        var query = Survey
             .find()
             .sort(sort)
             .limit(resultsPerPage)
             .skip(resultsPerPage * (page - 1));
-        const meta = { 'page': page, 'perPage': resultsPerPage, 'sortBy': sortBy, 'sortOrder': sortOrder };
-        res.json({ 'meta': meta, 'surveys': surveys });
+
+        var meta = { 'page': page, 'perPage': resultsPerPage, 'sortBy': sortBy, 'sortOrder': sortOrder };
+        query.exec(function(err, surveys) {
+            if (err) return result(err, null);
+            result(null, { 'meta': meta, 'surveys': surveys });
+        })
     } catch (err) {
-        res.json(err.message);
+        result(err, null);
     }
 };
 
-exports.create = async function(req, res, next) {
+exports.create = async function(body, result) {
+    // frontend validations
     const rules = {
         name: { type: "string", min: 3, max: 255 },
         position: { type: "string", min: 5, max: 255 },
@@ -56,17 +55,19 @@ exports.create = async function(req, res, next) {
         age: { type: "number", optional: true }
     };
 
-    let result = v.validate(req.body, rules);
-    if (Array.isArray(result) && result.length) {
-        // throw Error(result[0]['message']);
-        res.status(400).json({ 'error': result[0]['message'] });
+    var errors = v.validate(body, rules);
+    if (Array.isArray(errors)) {
+        var err = new Error(errors[0]['message']);
+        return result(err);
     }
 
     try {
-        let survey = new Survey(req.body);
-        let surveyNew = await survey.save();
-        res.json(surveyNew);
+        var survey = new Survey(body);
+        survey.save(err => {
+            if (err) return result(err);
+            return result(null, survey); // survey._id: ID is created by default!
+        });
     } catch (err) {
-        res.json(err.message);
+        return result(err);
     }
 };

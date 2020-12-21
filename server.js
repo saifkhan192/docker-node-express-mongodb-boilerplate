@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('./src/config');
 const instagram = require('./src/helpers/instagram');
+const basicAuth = require('./src/middleware/auth');
 
 const app = express();
 app.use(cors());
@@ -20,12 +21,47 @@ function errorHandler(err, req, res, next) {
     res.json({ error: err.message, stack: err.stack });
 }
 
-app.get('/', function(req, res) {
-    instagram.getIGPosts().then(posts => {
-        res.render('index', { 'items': posts })
-    });
+const { Pool, Client } = require('pg');
+
+const dbConfig = {
+    connectionString: config.postgres_db
+};
+
+// Use Pool
+// const pool = new Pool(dbConfig);
+
+// Use Client
+const client = new Client(dbConfig);
+
+app.get('/students', function(req, res) {
+    try {
+        let query = 'SELECT * FROM main.Student limit 50';
+
+        // pool.query(query, (err, resp) => {
+        //     // pool.end();
+        //     res.json({ total: resp.rowCount, rows: resp.rows });
+        // });
+
+        client.connect();
+        client.query(query, (err, resp) => {
+            res.json({ total: resp.rowCount, rows: resp.rows });
+        });
+
+    } catch (err) {
+        res.json({ 'error': err.message, 'error': err.stack });
+    }
 });
 
+
+app.get('/', function(req, res) {
+    try {
+        instagram.getInstagramPosts().then(posts => {
+            res.render('index', { 'items': posts })
+        });
+    } catch (err) {
+        res.json({ 'error': err.message, 'error': err.stack });
+    }
+});
 
 app.get('/some-error', function(req, res) {
     throw Error("Some Error occured!");
@@ -39,7 +75,6 @@ app.get('/doc', function(req, res) {
     }
 });
 
-
 app.get('/doc/json', function(req, res) {
     const yaml = require('js-yaml');
     const fs = require('fs');
@@ -51,16 +86,21 @@ app.get('/doc/json', function(req, res) {
     }
 });
 
+// app.get('/db-sync', basicAuth, function(req, res) {
+app.get('/db-sync', function(req, res) {
+    const { sequelize } = require('./src/models/db');
+    sequelize.sync({ force: true });
+    res.json({ message: "sync done." });
+});
 
 require('./src/routes')(app);
 
 app.use(errorHandler);
 
 function listenApp() {
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 8080;
     const HOST = '0.0.0.0';
-    console.log([app.get('env')]);
-    // if (app.get('env') === 'test') return;
+    if (app.get('env') === 'test') return;
     app.listen(PORT, HOST);
     console.log(`Running on http://${HOST}:${PORT}`);
 }

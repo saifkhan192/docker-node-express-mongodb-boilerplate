@@ -17,7 +17,7 @@ head
       .tm-navbar-bg
         a.navbar-brand.text-uppercase(href='#')
           i.fa.fa-picture-o.tm-brand-icon
-          | Express/Mongo App
+          | Docker / Express / Mongo
         button.navbar-toggler.hidden-lg-up(type='button' data-toggle='collapse' data-target='#tmNavbar')
           | &#x2630;
         #tmNavbar.collapse.navbar-toggleable-md.text-xs-center.text-uppercase.tm-navbar
@@ -27,13 +27,9 @@ head
                 | Insta Gallery
                 span.sr-only (current)
             li.nav-item
-              a.nav-link(href='#0' data-no='2') 2nd fluid
+              a.nav-link(href='#0' data-no='3') Message
             li.nav-item
-              a.nav-link(href='#0' data-no='3') 3rd fluid
-            li.nav-item
-              a.nav-link(href='#0' data-no='4') Columns
-            li.nav-item
-              a.nav-link(href='#0' data-no='5') Message
+              a.nav-link(href='#' onclick='window.location.href="/doc";') Documentation
   ul.cd-hero-slider
     // Page 1 Gallery One
     li.selected
@@ -41,7 +37,6 @@ head
         .container-fluid.js-tm-page-content(data-page-no='1' data-page-type='gallery')
           .tm-img-gallery-container
             .tm-img-gallery.gallery-one
-              // Gallery One pop up connected with JS code below
               each item in items
                 .grid-item
                   figure.effect-sadie
@@ -52,78 +47,25 @@ head
                       p= item.caption
                       a(href=item.image_url) View more
 
-    // Page 4 About
+    // Page 3 Contact Us
     li
       .cd-full-width
-        .container-fluid.js-tm-page-content.tm-page-width.tm-pad-b(data-page-no='4')
-          .tm-about-page
-            .row.tm-white-box-margin-b
-              .col-xs-12
-                .tm-flex
-                  .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-2-col-textbox-2.tm-textbox-padding
-                    h2.tm-text-title Multiple Columns
-                    p.tm-text
-                      | Set true or false in HTML page line number 40 to turn on off page color. Mauris elit elit, imperdiet nec lorem sed, finibus maximus mauris. Nam laoreet eros nec convallis placerat.
-                  .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-2-col-textbox-2.tm-textbox-padding
-                    h2.tm-text-title Class aptent taciti
-                    p.tm-text
-                      | Aenean congue nulla et ligula consectetur consequat. Nullam fringilla blandit risus vitae auctor. Donec sed sapien varius, tincidunt nulla ut, ultrices nisl.
-                  .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-2-col-textbox-2.tm-textbox-padding
-                    h2.tm-text-title Aenean auctor
-                    p.tm-text
-                      | Integer enim tortor, tempor quis augue luctus, condimentum porttitor urna. Maecenas condimentum suscipit tortor vitae convallis.
-            .row.tm-white-box-margin-b
-              .col-xs-12
-                .tm-flex
-                  .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-2-col-textbox-2.tm-textbox-padding
-                    h2.tm-text-title Nulla vitae magna
-                    p.tm-text
-                      | Donec at felis at risus mattis efficitur. Pellentesque dui urna, blandit a congue ut, blandit sed eros. Sed sagittis consequat pellentesque. Vivamus eros turpis, lobortis sed fermentum euismod, vehicula id eros.
-                  .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-2-col-textbox-2.tm-textbox-padding
-                    h2.tm-text-title Pellentesque dui urna
-                    p.tm-text
-                      | Maecenas porta placerat lacus a lacinia. In imperdiet cursus erat, luctus molestie lorem congue at. Donec fringilla tortor non ipsum semper, sit amet aliquet magna rutrum.
-            .row.tm-white-box-margin-b
-              .col-xs-12
-                .tm-flex
-                  .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-textbox-padding
-                    h2.tm-text-title One Single Column
-                    p.tm-text
-                      | You can simply set 
-                      strong var tm_gray_site = true;
-                      |  or 
-                      strong var tm_gray_site = false;
-                      |  in the HTML top script tag to enable / disable gray scale or color of the page. Vivamus sit amet scelerisque diam. Donec congue feugiat consectetur. Donec facilisis, elit non suscipit pretium, lacus quam feugiat nulla, id tempus libero tellus ut nisi. Mauris non mi molestie, tristique nibh eu, auctor nibh. Fusce accumsan pretium ex in ullamcorper.
-                    p.tm-text
-                      | Ut blandit nisi purus, eget imperdiet sapien sodales et. Duis euismod, elit in laoreet cursus, ante diam facilisis lacus, sit amet aliquam odio quam ut libero. Proin bibendum ex nec lorem semper euismod. Nulla sed urna at ligula maximus blandit.
-      // .cd-full-width
-    // Page 5 Contact Us
-    li
-      .cd-full-width
-        .container-fluid.js-tm-page-content.tm-page-pad(data-page-no='5')
+        .container-fluid.js-tm-page-content.tm-page-pad(data-page-no='3')
           .tm-contact-page
             .row
               .col-xs-12
                 .tm-flex.tm-contact-container
                   .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-2-col-textbox-2.tm-textbox-padding.tm-textbox-padding-contact
                     h2.tm-contact-info Feel free to say Hi!
-                    p.tm-text
-                      | Nulla sed urna at ligula maximus blandit. Mauris nisi ligula, ultricies ac diam id, hendrerit tincidunt ipsum. Maecenas non massa justo.
                     // contact form
                     form.tm-contact-form(action='index.html' method='post')
                       .form-group
-                        input#contact_name.form-control(type='text' name='contact_name' placeholder='Name' required='')
+                        input#contact_name.form-control(type='text' name='contact_name' placeholder='Name' )
                       .form-group
                         input#contact_email.form-control(type='email' name='contact_email' placeholder='Email' required='')
                       .form-group
-                        textarea#contact_message.form-control(name='contact_message' rows='5' placeholder='Message' required='')
+                        textarea#contact_message.form-control(name='contact_message' rows='3' placeholder='Message' required='' style='height: 120px;')
                       button.pull-xs-right.tm-submit-btn(type='submit') Send
-                  .tm-bg-white-translucent.text-xs-left.tm-textbox.tm-2-col-textbox-2.tm-textbox-padding.tm-textbox-padding-contact
-                    h2.tm-contact-info 4466 Old New St 28290, SF, California
-                    // google map goes here
-                    #google-map
-      // .cd-full-width
-  // .cd-hero-slider
   footer.tm-footer
     .tm-social-icons-container.text-xs-center
       a.tm-social-link(href='https://github.com/saifkhan192/')
@@ -132,9 +74,7 @@ head
         i.fa.fa-linkedin
       a.tm-social-link(href='https://www.instagram.com/s4saifullah/')
         i.fa.fa-instagram
-    p.tm-copyright-text
-      | Copyright &copy; 
-      span.tm-copyright-year current year
+
 #loader-wrapper
   #loader
   .loader-section.section-left
@@ -165,13 +105,8 @@ script.
             $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", "100%");
         }
     }
-    /*
-    Everything is loaded including images.
-    */
     $(window).load(function() {
         adjustHeightOfPage(1); // Adjust page height
-        /* Gallery One pop up
-        -----------------------------------------*/
         $('.gallery-one').magnificPopup({
             delegate: 'a', // child items selector, by clicking on it popup will open
             type: 'image',
@@ -179,24 +114,15 @@ script.
                 enabled: true
             }
         });
-
-        /* Collapse menu after click
-        -----------------------------------------*/
         $('#tmNavbar a').click(function() {
             $('#tmNavbar').collapse('hide');
             adjustHeightOfPage($(this).data("no")); // Adjust page height
         });
-        /* Browser resized
-        -----------------------------------------*/
         $(window).resize(function() {
             var currentPageNo = $(".cd-hero-slider li.selected .js-tm-page-content").data("page-no");
-            // wait 3 seconds
             setTimeout(function() {
                 adjustHeightOfPage(currentPageNo);
             }, 1000);
         });
-        // Remove preloader (https://ihatetomatoes.net/create-custom-preloading-screen/)
         $('body').addClass('loaded');
-        // Write current year in copyright text.
-        $(".tm-copyright-year").text(new Date().getFullYear());
     });

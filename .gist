@@ -1,0 +1,4 @@
+$ make bash_db
+$ psql -U user -d postgres
+$ \l
+$ \c demo-db

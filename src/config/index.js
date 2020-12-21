@@ -1,10 +1,12 @@
 'use strict';
 const path = require('path');
 
+// require('dotenv').config({ path: '../', debug: true });
+
+
 const defaults = {
     root: path.join(__dirname, '..'),
     mongoOptions: { keepAlive: 1, useNewUrlParser: true, useUnifiedTopology: true },
-    // notifier: notifier
 };
 
 let envName = process.env.NODE_ENV || 'development';
