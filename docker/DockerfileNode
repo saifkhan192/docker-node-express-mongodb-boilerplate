@@ -1,0 +1,40 @@
+FROM node:12 as baseImage
+RUN apt-get update && apt-get install bash
+
+WORKDIR /app
+FROM baseImage as phase2
+
+ENV PATH /app/node_modules/.bin:$PATH
+
+# CMD npm cache clean --force
+
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
+
+FROM phase2 as phase3
+# RUN pwd
+# RUN ls ./node_modules
+COPY . ./
+
+EXPOSE 8080
+
+#debug port
+EXPOSE 9229 
+
+# CMD npm i --package-lock-only
+# CMD ls -la /app
+# CMD ls -la /app
+
+
+# ENTRYPOINT ["npm", "run", "production"]
+# ENTRYPOINT ["npm", "run", "debug6"]
+# ENTRYPOINT ["npm", "run", "debug2"]
+
+# CMD [ "node", "server.js" ]
+# CMD cross-env NODE_ENV=development nodemon --inspect server.js
+# CMD pwd ; ls -la ./
+# CMD pwd ; ls -la ./node_modules
+# ENTRYPOINT ["npm", "run", "debug2"]
+
+

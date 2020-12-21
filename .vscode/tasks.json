@@ -1,0 +1,77 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "open_cmd",
+            "type": "shell",
+            "command": "make open_cmd",
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "view_logs",
+            "type": "shell",
+            "command": "make view_logs",
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            "problemMatcher": [],
+        },
+
+        {
+            "label": "restart_app",
+            "type": "shell",
+            "command": "make restart_app",
+            "windows": {
+                "command": ""
+            },
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "up_app",
+            "type": "shell",
+            "command": "make up_app",
+            "windows": {
+                "command": ""
+            },
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "down_app",
+            "type": "shell",
+            "command": "make stop_all",
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "chrome launch-debug-mode",
+            "type": "process",
+            "command": "/usr/bin/google-chrome",
+            "args": [
+                "--remote-debugging-port=9222",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--user-data-dir=/tmp/vscode-chrome-debug-rix",
+                "http://localhost:3001"
+            ]           
+        }
+
+    ]
+}

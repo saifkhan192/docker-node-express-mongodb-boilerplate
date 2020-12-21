@@ -1,0 +1,52 @@
+doctype html
+// HTML for static distribution bundle build
+head
+  meta(charset='UTF-8')
+  title API
+  link(rel='stylesheet' href='swaggerui/css/swagger-ui.css')
+  style.
+    html
+    {
+    box-sizing: border-box;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+    }
+    *,
+    *:before,
+    *:after
+    {
+    box-sizing: inherit;
+    }
+    .swagger-ui .topbar {
+    display: none;
+    }
+#swagger-ui
+script(src="swaggerui/js/swagger-ui-bundle.js")
+script(src="swaggerui/js/swagger-ui-standalone-preset.js")
+script.
+    window.onload = function() {
+      const ui = SwaggerUIBundle({
+        urls: [
+            {
+                url: "/doc/json",
+            }
+        ],
+        dom_id: '#swagger-ui',
+        explorer: true,
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "StandaloneLayout",
+        theme:
+        {
+          "swaggerAbsoluteTop": "0px", // the top most container is set absolute at this distance from top. (default 0)
+          "hasSidebar": true
+        }
+      })
+      window.ui = ui
+    }
